@@ -302,14 +302,14 @@ func getDNSQuery(addr string, server string) (net.IP, error) {
 
 	if addrs, err := net.LookupHost(server); err == nil {
 		// FIXME: we should really try all addresses.
-		serverport = addrs[0]
+		serverport = net.JoinHostPort(addrs[0], "53")
 	} else {
 		serverport = server
 	}
 
 	// FIXME: this will not work for ipv6 addresses.
 	if strings.LastIndex(serverport, ":") < 0 {
-		serverport += ":53"
+		serverport = net.JoinHostPort(serverport, "53")
 	}
 
 	log.Println("Doing dns-query against", serverport)
