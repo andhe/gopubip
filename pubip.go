@@ -77,6 +77,7 @@ type SourceID int
 const (
 	ICANHAZIP SourceID = (1 << iota)
 	IFCONFIGME
+	IPIFY
 	OPENDNS
 	GOOGLEDNSTXT
 )
@@ -85,6 +86,7 @@ func (sid SourceID) String() string {
 	m := map[uint]string{
 		uint(ICANHAZIP):    "ICANHAZIP",
 		uint(IFCONFIGME):   "IFCONFIGME",
+		uint(IPIFY):        "IPIFY",
 		uint(OPENDNS):      "OPENDNS",
 		uint(GOOGLEDNSTXT): "GOOGLEDNSTXT",
 	}
@@ -155,6 +157,14 @@ func Get(sf *SourceFilter) (net.IP, bool) {
 			Address:     "icanhazip.com",
 			AddressIPv4: "ipv4.icanhazip.com",
 			AddressIPv6: "ipv6.icanhazip.com",
+			Protocols:   HTTP | HTTPS,
+			Replies:     IPv4 | IPv6,
+		},
+		IPIFY: Source{
+			ID:          IPIFY,
+			Address:     "api.ipify.org",
+			AddressIPv4: "api.ipify.org",
+			AddressIPv6: "api64.ipify.org",
 			Protocols:   HTTP | HTTPS,
 			Replies:     IPv4 | IPv6,
 		},
